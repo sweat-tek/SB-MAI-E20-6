@@ -41,6 +41,7 @@ public class PasteAction extends AbstractAction {
     }
 
     @FeatureEntryPoint(JHotDrawFeatures.BASIC_EDITING)
+    @Override
     public void actionPerformed(ActionEvent evt) {
         Component focusOwner = KeyboardFocusManager.
                 getCurrentKeyboardFocusManager().
