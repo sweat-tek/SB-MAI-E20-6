@@ -338,15 +338,8 @@ public class DefaultDrawingView
         int h = getHeight();
 
         // Retrieve the canvasColor color from the drawing
-        Color canvasColor;
-        if (drawing == null) {
-            canvasColor = getBackground();
-        } else {
-            canvasColor = CANVAS_FILL_COLOR.get(drawing);
-            if (canvasColor != null) {
-                canvasColor = new Color((canvasColor.getRGB() & 0xffffff) | ((int) (CANVAS_FILL_OPACITY.get(drawing) * 255) << 24), true);
-            }
-        }
+        Color canvasColor = getCanvasColor();
+        
         if (canvasColor == null || canvasColor.getAlpha() != 255) {
             g.setPaint(getBackgroundPaint(x, y));
             g.fillRect(x, y, w - x, h - y);
@@ -1223,5 +1216,21 @@ public class DefaultDrawingView
 
     public Handle getActiveHandle() {
         return activeHandle;
+    }
+    
+    /**
+     * Returns canvas color from drawing
+     */
+    public Color getCanvasColor() {
+        Color canvasColor;
+        if (drawing == null) {
+            canvasColor = getBackground();
+        } else {
+            canvasColor = CANVAS_FILL_COLOR.get(drawing);
+            if (canvasColor != null) {
+                canvasColor = new Color((canvasColor.getRGB() & 0xffffff) | ((int) (CANVAS_FILL_OPACITY.get(drawing) * 255) << 24), true);
+            }
+        }
+        return canvasColor;
     }
 }
