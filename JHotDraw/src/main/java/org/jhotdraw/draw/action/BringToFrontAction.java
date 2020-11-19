@@ -40,6 +40,7 @@ public class BringToFrontAction extends AbstractSelectedAction {
         labels.configureAction(this, ID);
     }
 
+    @Override
     @FeatureEntryPoint(JHotDrawFeatures.ARRANGE)
     public void actionPerformed(java.awt.event.ActionEvent e) {
         final DrawingView view = getView();
