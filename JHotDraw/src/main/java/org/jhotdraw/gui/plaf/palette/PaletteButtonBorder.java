@@ -28,7 +28,7 @@ import org.apache.batik.ext.awt.*;
  * PaletteButtonBorder.
  *
  * @author Werner Randelshofer
- * @version 1.0 Apr 6, 2008 Created.
+ * @version 1.0 Apr 6, 2008 Created. WR
  */
 public class PaletteButtonBorder implements Border, UIResource {
 
