@@ -49,20 +49,21 @@ public class BringToFrontAction extends AbstractSelectedAction {
         fireUndoableEditHappened(new AbstractUndoableEdit() {
             @Override
             public String getPresentationName() {
-       return labels.getTextProperty(ID);
+                return labels.getTextProperty(ID);
             }
+            
             @Override
             public void redo() throws CannotRedoException {
                 super.redo();
                 BringToFrontAction.bringToFront(view, figures);
             }
+            
             @Override
             public void undo() throws CannotUndoException {
                 super.undo();
                 SendToBackAction.sendToBack(view, figures);
             }
         }
-        
         );
     }
     public static void bringToFront(DrawingView view, Collection<Figure> figures) {
