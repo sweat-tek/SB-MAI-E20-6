@@ -88,6 +88,7 @@ public class DefaultDrawing
         }
     }
 
+    @Override
     public java.util.List<Figure> sort(Collection<? extends Figure> c) {
         HashSet<Figure> unsorted = new HashSet<Figure>();
         unsorted.addAll(c);
@@ -107,6 +108,7 @@ public class DefaultDrawing
         return sorted;
     }
 
+    @Override
     public Figure findFigure(Point2D.Double p) {
         for (Figure f : getFiguresFrontToBack()) {
             if (f.isVisible() && f.contains(p)) {
@@ -116,6 +118,7 @@ public class DefaultDrawing
         return null;
     }
 
+    @Override
     public Figure findFigureExcept(Point2D.Double p, Figure ignore) {
         for (Figure f : getFiguresFrontToBack()) {
             if (f != ignore && f.isVisible() && f.contains(p)) {
@@ -125,6 +128,7 @@ public class DefaultDrawing
         return null;
     }
 
+    @Override
     public Figure findFigureExcept(Point2D.Double p, Collection<? extends Figure> ignore) {
         for (Figure f : getFiguresFrontToBack()) {
             if (!ignore.contains(f) && f.isVisible() && f.contains(p)) {
@@ -134,6 +138,7 @@ public class DefaultDrawing
         return null;
     }
 
+    @Override
     public java.util.List<Figure> findFigures(Rectangle2D.Double bounds) {
         LinkedList<Figure> intersection = new LinkedList<Figure>();
         for (Figure f : getChildren()) {
@@ -144,6 +149,7 @@ public class DefaultDrawing
         return intersection;
     }
 
+    @Override
     public java.util.List<Figure> findFiguresWithin(Rectangle2D.Double bounds) {
         LinkedList<Figure> contained = new LinkedList<Figure>();
         for (Figure f : getChildren()) {
@@ -169,6 +175,7 @@ public class DefaultDrawing
      * Returns an iterator to iterate in
      * Z-order front to back over the children.
      */
+    @Override
     public java.util.List<Figure> getFiguresFrontToBack() {
         ensureSorted();
         return new ReversedList<Figure>(getChildren());
