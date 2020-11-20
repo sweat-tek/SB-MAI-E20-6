@@ -27,26 +27,10 @@ import javax.swing.BoxLayout;
 public class ToolBarLayout implements LayoutManager2, Serializable {
     
     ToolBarAxis Axis = new ToolBarAxis();
-    
-    /**
-     * Specifies that components should be laid out left to right.
-     */
-    public static final int X_AXIS = 0;
-    /**
-     * Specifies that components should be laid out top to bottom.
-     */
-    public static final int Y_AXIS = 1;
-    /**
-     * Specifies the axis of the layout.
-     */
-    private int axis;
+    private int axis= Axis.getXAxis();
 
-    /**
-     * Creates a layout manager that will lay out components along the
-     * X-axis.  
-     */
-    public ToolBarLayout() {
-        this(X_AXIS);
+
+    public ToolBarLayout() {  
     }
     /**
      * Creates a layout manager that will lay out components along the
@@ -78,34 +62,36 @@ public class ToolBarLayout implements LayoutManager2, Serializable {
         }
         
         return 0f;    
-            
-//        switch (axis) {
-//            case Y_AXIS:
-//                return 0f;
-//            case X_AXIS:
-//            default:
-//                return 0f;
         
-    }
-
-    public float getLayoutAlignmentY(Container target) {
-        
-    // -- DEPRECATED CODE --     
+    // -- DEPRECATED CODE --          
     //        switch (axis) {
     //            case Y_AXIS:
     //                return 0f;
     //            case X_AXIS:
     //            default:
     //                return 0f;
-    //        }
-    
-        if(axis == Axis.getXAxis()){
+        
+    }
+
+    public float getLayoutAlignmentY(Container target) {
+        
+////     -- DEPRECATED CODE --     
+//            switch (axis) {
+//                case Y_AXIS:
+//                    return 0f;
+//                case X_AXIS:
+//                default:
+//                    return 0f;
+//            }
+//    
+        if(this.axis == Axis.getXAxis()){
+            
         }
-        if(axis == Axis.getYAxis()){
+        if(this.axis == Axis.getYAxis()){
             return 0f;
         }
         
-        return 0f;     
+        return 0f;
     }
 
     public void invalidateLayout(Container target) {
@@ -120,37 +106,39 @@ public class ToolBarLayout implements LayoutManager2, Serializable {
     public Dimension preferredLayoutSize(Container parent) {
         int w = 0;
         int h = 0;
-//        if(axis == Axis.getXAxis()){
-//        } else if(axis == Axis.getYAxis()){
-//            for (Component c : parent.getComponents()) {
-//                    Dimension ps = c.getPreferredSize();
-//                    w = Math.max(w, ps.width);
-//                    h += ps.height;
-//                }    
-//        } else {
-//            for (Component c : parent.getComponents()) {
-//                    Dimension ps = c.getPreferredSize();
-//                    w = Math.max(w, ps.width);
-//                    h += ps.height;
-//                }  
-//        }
+        System.out.println("THIS IS PARENT" + parent);
         
-        switch (axis) {
-            case Y_AXIS:
-                for (Component c : parent.getComponents()) {
-                    Dimension ps = c.getPreferredSize();
-                    w = Math.max(w, ps.width);
-                    h += ps.height;
-                }
-                break;
-            case X_AXIS:
-            default:
+        if(axis == Axis.getXAxis()){
                 for (Component c : parent.getComponents()) {
                     Dimension ps = c.getPreferredSize();
                     h = Math.max(h, ps.height);
                     w += ps.width;
-                }
+                }  
         }
+        if(axis == Axis.getYAxis()){
+            for (Component c : parent.getComponents()) {
+                    Dimension ps = c.getPreferredSize();
+                    w = Math.max(w, ps.width);
+                    h += ps.height;
+                
+            }    
+        }  
+//        switch (axis) {
+//            case 1:
+//                for (Component c : parent.getComponents()) {
+//                    Dimension ps = c.getPreferredSize();
+//                    w = Math.max(w, ps.width);
+//                    h += ps.height;
+//                }
+//                break;
+//            case 0:
+//            default:
+//                for (Component c : parent.getComponents()) {
+//                    Dimension ps = c.getPreferredSize();
+//                    h = Math.max(h, ps.height);
+//                    w += ps.width;
+//                }
+//        }
         
         Insets i = parent.getInsets();
         
@@ -163,6 +151,9 @@ public class ToolBarLayout implements LayoutManager2, Serializable {
 
     public void layoutContainer(Container parent) {
         Dimension ps = preferredLayoutSize(parent);
+        System.out.println(ps);
+        assert ps != null;
+        
         Insets insets = parent.getInsets();
         
         int w = ps.width - insets.left - insets.right;
@@ -170,37 +161,41 @@ public class ToolBarLayout implements LayoutManager2, Serializable {
         int x = insets.left;
         int y = insets.top;
         
-        switch (axis) {
-            case Y_AXIS:
-                for (Component c : parent.getComponents()) {
-                    ps = c.getPreferredSize();
-                    c.setBounds(x, y, w, ps.height);
-                    y += ps.height;
-                }
-                break;
-            case X_AXIS:
-            default:
+        if(axis == Axis.getXAxis()){
                 for (Component c : parent.getComponents()) {
                     ps = c.getPreferredSize();
                     c.setBounds(x, y, ps.width, h);
                     x += ps.width;
                 }
         }
-    }
-}
-        
-//        if(axis == Axis.getXAxis()){
-//                        for (Component c : parent.getComponents()) {
+        if(axis == Axis.getYAxis()){
+                for (Component c : parent.getComponents()) {
+                    ps = c.getPreferredSize();
+                    c.setBounds(x, y, w, ps.height);
+                    y += ps.height;
+                }
+            }
+ 
+//        switch (axis) {
+//            case 1:
+//                for (Component c : parent.getComponents()) {
+//                    ps = c.getPreferredSize();
+//                    c.setBounds(x, y, w, ps.height);
+//                    y += ps.height;
+//                }
+//                break;
+//            case 0:
+//            default:
+//                for (Component c : parent.getComponents()) {
 //                    ps = c.getPreferredSize();
 //                    c.setBounds(x, y, ps.width, h);
 //                    x += ps.width;
 //                }
-//        } else if(axis == Axis.getYAxis()){
-//            for (Component c : parent.getComponents()) {
-//                    ps = c.getPreferredSize();
-//                    c.setBounds(x, y, w, ps.height);
-//                    y += ps.height;
-//            }
+//        }
+    }
+}
+        
+
 
 
         
