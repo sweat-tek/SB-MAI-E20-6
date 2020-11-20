@@ -27,7 +27,7 @@ import javax.swing.BoxLayout;
 public class ToolBarLayout implements LayoutManager2, Serializable {
     
     ToolBarAxis Axis = new ToolBarAxis();
-    private int axis= Axis.getXAxis();
+    int axis= Axis.getXAxis();
 
 
     public ToolBarLayout() {  
@@ -52,6 +52,10 @@ public class ToolBarLayout implements LayoutManager2, Serializable {
 
     public Dimension maximumLayoutSize(Container target) {
         return preferredLayoutSize(target);
+    }
+    
+    public void setAlignmentY(){
+        this.axis = this.Axis.getYAxis();
     }
 
     public float getLayoutAlignmentX(Container target) {
@@ -106,7 +110,7 @@ public class ToolBarLayout implements LayoutManager2, Serializable {
     public Dimension preferredLayoutSize(Container parent) {
         int w = 0;
         int h = 0;
-        System.out.println("THIS IS PARENT" + parent);
+        
         
         if(axis == Axis.getXAxis()){
                 for (Component c : parent.getComponents()) {
@@ -141,6 +145,7 @@ public class ToolBarLayout implements LayoutManager2, Serializable {
 //        }
         
         Insets i = parent.getInsets();
+        System.out.println(i);
         
         return new Dimension(w + i.left + i.right, h + i.top + i.bottom);
     }

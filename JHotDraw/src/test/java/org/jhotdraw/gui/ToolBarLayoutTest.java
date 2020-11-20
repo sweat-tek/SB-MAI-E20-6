@@ -8,8 +8,10 @@ package org.jhotdraw.gui;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Insets;
 import junit.framework.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import org.mockito.Mock;
@@ -25,35 +27,48 @@ public class ToolBarLayoutTest {
     
     @Mock
     Container parent = mock(Container.class);
-    ToolBarAxis axis = mock(ToolBarAxis.class);
+    Component component = mock(Component.class);
+    ToolBarAxis axis = new ToolBarAxis();
     ToolBarLayout layout = mock(ToolBarLayout.class);
+
     
     
     @Test
     public void TestToolBarAxis(){
-        // Add the behavior of getXAxis
-        Mockito.when(axis.getXAxis()).thenReturn(0); 
-       
-        // Test the behaviour of getXAxis
-        Assert.assertEquals(0, axis.getXAxis());
         
-        // Check if the getXAxis was called
-        Mockito.verify(axis).getXAxis();
-        
-        // Add behaviour of getY
-        Mockito.when(axis.getYAxis()).thenReturn(1);
-        
+        // Test the getY functionality
+        Assert.assertEquals(0, axis.getXAxis()); 
         // Test the getY functionality
         Assert.assertEquals(1, axis.getYAxis());
         
-        // Check if the getYAxis was called
-        Mockito.verify(axis).getYAxis();
+
     }
     
     @Test
-    public void TestToolBarLayout(){
-        Mockito.when(layout.preferredLayoutSize(parent)).thenReturn(new Dimension());
-        Assert.assertEquals(new Dimension(), layout.preferredLayoutSize(parent));  
+    public void testPreferredLayoutSize(){
+        int w = 0;
+        int h = 0;
+        
+        // Add the behaviours
+        Mockito.when(component.getPreferredSize()).thenReturn(new Dimension(100, 100));
+        Mockito.when(parent.getInsets()).thenReturn(new Insets(50,50,50,50));
+        
+        // Test the behaviours added behaviour is correct
+        Assert.assertEquals(new Dimension(100, 100), component.getPreferredSize());
+        Assert.assertEquals(new Insets(50,50,50,50), parent.getInsets());
+        
+
+        // Simulate loop behaviour with the mocked method
+        Dimension ps = component.getPreferredSize();
+        h = Math.max(h, ps.height);
+        w += ps.width;
+        
+        // Test the expected return of method with the mocked method
+        Insets i = parent.getInsets();
+        Dimension result = new Dimension(w + i.left + i.right,h + i.top + i.bottom);
+        Assert.assertEquals(result, new Dimension(200, 200));
+        
+        
     }
 
 }
