@@ -314,4 +314,8 @@ public class QuadTreeDrawing extends AbstractDrawing {
     protected void drawStroke(Graphics2D g) {
         // throw new UnsupportedOperationException("Not supported yet.");
     }
+    
+    public void setChildren(ArrayList<Figure> children) {
+        this.children = children;
+    }
 }
