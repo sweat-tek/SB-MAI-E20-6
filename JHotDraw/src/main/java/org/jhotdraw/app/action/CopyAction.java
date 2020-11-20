@@ -48,14 +48,17 @@ public class CopyAction extends AbstractAction {
         Component focusOwner = KeyboardFocusManager.
                 getCurrentKeyboardFocusManager().
                 getPermanentFocusOwner();
-        assert focusOwner != null;
-        if (focusOwner instanceof JComponent) {
+        
+        onActionPerformed(evt, focusOwner);
+    }
+
+    public void onActionPerformed(ActionEvent evt, Component focusOwner) {
+        if (focusOwner != null && focusOwner instanceof JComponent) {
             JComponent component = (JComponent) focusOwner;
             component.getTransferHandler().exportToClipboard(
                     component,
                     component.getToolkit().getSystemClipboard(),
-                    TransferHandler.COPY
-            );
+                    TransferHandler.COPY);
         }
     }
 }
