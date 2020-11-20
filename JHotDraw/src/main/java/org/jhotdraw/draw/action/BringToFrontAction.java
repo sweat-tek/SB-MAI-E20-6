@@ -68,6 +68,7 @@ public class BringToFrontAction extends AbstractSelectedAction {
     }
     public static void bringToFront(DrawingView view, Collection<Figure> figures) {
         Drawing drawing = view.getDrawing();
+        assert view != null : "View is null";
         Iterator i = drawing.sort(figures).iterator();
         while (i.hasNext()) {
             Figure figure = (Figure) i.next();
