@@ -628,7 +628,7 @@ public class SVGOutputFormat implements OutputFormat {
         // Media:  	 visual
         // Animatable:  	 yes
         // Computed value:  	 "none", system paint, specified <color> value or absolute IRI
-   Gradient gradient = FILL_GRADIENT.get(f);
+        Gradient gradient = FILL_GRADIENT.get(f);
         if (gradient != null) {
             String id = addGradienttomap(gradient);            
             writeAttribute(elem, "fill", "url(#" + id + ")", "#000");
