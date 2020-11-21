@@ -13,17 +13,17 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @author haris
  */
 public class TextUndoableEdit extends AbstractUndoableEdit {
-    
+
     private TextHolderFigure editedFigure;
     private String oldText;
     private String newText;
-    
-    public TextUndoableEdit(TextHolderFigure editedF, String oldText, String newText){
-        this.editedFigure = editedF;
+
+    public TextUndoableEdit(TextHolderFigure editedFigure, String oldText, String newText) {
+        this.editedFigure = editedFigure;
         this.oldText = oldText;
         this.newText = newText;
     }
-    
+
     @Override
     public String getPresentationName() {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");

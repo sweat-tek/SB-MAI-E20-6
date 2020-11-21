@@ -350,10 +350,6 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     }
 // ATTRIBUTES
 
-    public String getText() {
-        return (String) getAttribute(TEXT);
-    }
-
     public int getTextColumns() {
         return (getText() == null) ? 4 : Math.max(getText().length(), 4);
     }
@@ -370,6 +366,10 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
             invalidate();
         }
         super.setAttribute(key, newValue);
+    }
+
+    public String getText() {
+        return (String) getAttribute(TEXT);
     }
 
     /**
