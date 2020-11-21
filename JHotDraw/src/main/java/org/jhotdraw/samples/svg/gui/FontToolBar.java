@@ -157,7 +157,57 @@ public class FontToolBar extends AbstractToolBar {
 
     private void fontSizeSliderUI() 
     {
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
+        
+        JAttributeTextField<Double> sizeField = new JAttributeTextField<>();
+        
+        sizeField.setColumns(1);
+        sizeField.setToolTipText(labels.getString("attribute.fontSize.toolTipText"));
+        sizeField.setHorizontalAlignment(JAttributeTextField.RIGHT);
+        sizeField.putClientProperty("Palette.Component.segmentPosition", "first");
+        sizeField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(sizeField));
+        sizeField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 1000d, 1d));
+        sizeField.setHorizontalAlignment(JTextField.LEADING);
+        new FigureAttributeEditorHandler<Double>(FONT_SIZE, sizeField, editor);
+        
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.insets = new Insets(3, 0, 0, 0);
+        gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+        gbc.gridwidth = 2;
+        gbc.weightx=1f;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel2.add(sizeField, gbc);
+        
+        JPopupButton sizePopupButton = new JPopupButton();
+        JAttributeSlider sizeSlider = new JAttributeSlider(JSlider.VERTICAL, 0, 100, 12);
+        sizePopupButton.add(sizeSlider);
+        labels.configureToolBarButton(sizePopupButton, "attribute.fontSize");
+        sizePopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(sizePopupButton));
+        sizePopupButton.setPopupAnchor(SOUTH_EAST);
+        
+        new SelectionComponentRepainter(editor, sizePopupButton);
+        
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+        gbc.insets = new Insets(3, 0, 0, 0);
+        panel2.add(sizePopupButton, gbc);
+        sizeSlider.setUI((SliderUI) PaletteSliderUI.createUI(sizeSlider));
+        sizeSlider.setScaleFactor(1d);
+        
+        new FigureAttributeEditorHandler<Double>(FONT_SIZE, sizeSlider, editor);
 
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth=2;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+        gbc.insets = new Insets(0, 0, 0, 0);
+        panel.add(panel2, gbc);
     }
 
     private void fontStyleButtonsUI() 
