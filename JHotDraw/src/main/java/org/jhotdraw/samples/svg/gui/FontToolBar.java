@@ -123,8 +123,29 @@ public class FontToolBar extends AbstractToolBar {
         GridBagLayout layout = new GridBagLayout();
         panel.setLayout(layout);
     }
+    
+    @Override
+    @FeatureEntryPoint(JHotDrawFeatures.FONT_PALETTE)
+    protected JComponent createDisclosedComponent(int state) 
+    {
+        initialize();
+        fontSizeSliderUI();
+        fontStyleButtonsUI();
+        
+        switch (state) 
+        {
+            case 1:
+                fontFacePopupUI(2, 2);
+                break;
+            case 2:
+                fontFacePopupUI(10, 3);
+                break;
+        }
+        
+        return panel;   
+    }
 
-    private void fontFacePopupUI(int columnAmount, int gridW) 
+    private void fontFacePopupUI(int columnAmount, int gridWidth) 
     {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         
@@ -144,7 +165,7 @@ public class FontToolBar extends AbstractToolBar {
         gbc.gridy = 0;
         gbc.insets = new Insets(0, 0, 0, 0);
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-        gbc.gridwidth = gridW;
+        gbc.gridwidth = gridWidth;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(faceField, gbc);
         btn = ButtonFactory.createFontButton(editor, labels);
