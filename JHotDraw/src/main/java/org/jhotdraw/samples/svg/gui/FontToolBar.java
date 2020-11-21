@@ -142,6 +142,14 @@ public class FontToolBar extends AbstractToolBar {
                 break;
         }
         
+//        Wanted to do the switch like below, wont work with netbeans though
+//        
+//        switch (state) 
+//        {
+//            case 1 -> createFontFaceField(2, 2);
+//            case 2 -> createFontFaceField(10, 3);
+//        }
+        
         return panel;   
     }
 
