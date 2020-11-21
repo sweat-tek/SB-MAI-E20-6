@@ -100,6 +100,28 @@ public class FontToolBar extends AbstractToolBar {
         }
     }
 
+    private void initialize() 
+    {
+        JPanel panel = new JPanel();
+        JPanel panel1 = new JPanel(new GridBagLayout());
+        JPanel panel2 = new JPanel(new GridBagLayout());
+        JPanel panel3 = new JPanel(new GridBagLayout());
+        
+        panel.setOpaque(false);
+        panel1.setOpaque(false);
+        panel2.setOpaque(false);
+        panel3.setOpaque(false);
+        
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle
+        ("org.jhotdraw.samples.svg.Labels");
+        
+        GridBagLayout layout = new GridBagLayout();
+        panel.setLayout(layout);
+        
+        GridBagConstraints gbc;
+        AbstractButton btn;
+    }    
+    
     @Override
     @FeatureEntryPoint(JHotDrawFeatures.FONT_PALETTE)
     protected JComponent createDisclosedComponent(int state) {
