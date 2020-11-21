@@ -158,30 +158,7 @@ public class TextCreationTool extends CreationTool implements ActionListener {
                     typingTarget.changed();
                 }
             }
-            UndoableEdit edit = new AbstractUndoableEdit() {
-
-                @Override
-                public String getPresentationName() {
-                    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-                    return labels.getString("attribute.text.text");
-                }
-
-                @Override
-                public void undo() {
-                    super.undo();
-                    editedFigure.willChange();
-                    editedFigure.setText(oldText);
-                    editedFigure.changed();
-                }
-
-                @Override
-                public void redo() {
-                    super.redo();
-                    editedFigure.willChange();
-                    editedFigure.setText(newText);
-                    editedFigure.changed();
-                }
-            };
+            UndoableEdit edit = new TextUndoableEdit(editedFigure, oldText, newText);
             getDrawing().fireUndoableEditHappened(edit);
 
             typingTarget.changed();
@@ -189,7 +166,6 @@ public class TextCreationTool extends CreationTool implements ActionListener {
             
             textField.endOverlay();
         }
-        //	        view().checkDamage();
     }
     
     @Override
