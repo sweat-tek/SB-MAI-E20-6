@@ -84,7 +84,7 @@ public class DefaultDrawingView
     private Constrainer visibleConstrainer = new GridConstrainer(8, 8);
     private Constrainer invisibleConstrainer = new GridConstrainer();
     private Handle secondaryHandleOwner;
-    private Handle activeHandle;
+    private Handle activeHandle;     // Set this to true to turn on debugging output on System.out.
     private LinkedList<Handle> secondaryHandles = new LinkedList<Handle>();
     private boolean handlesAreValid = true;
     private transient Dimension cachedPreferredSize;
@@ -286,10 +286,9 @@ public class DefaultDrawingView
         Graphics2D g = (Graphics2D) gr;
 
         // Set rendering hints for speed
-        g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_NORMALIZE);
-        g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, (Options.isFractionalMetrics()) ? RenderingHints.VALUE_FRACTIONALMETRICS_ON : RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
+        setDefaultRenderingHints(g);
+        
+        // Specific configuration
         g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
         g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, (Options.isTextAntialiased()) ? RenderingHints.VALUE_TEXT_ANTIALIAS_ON : RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
@@ -312,6 +311,15 @@ public class DefaultDrawingView
         Graphics2D g = (Graphics2D) gr;
 
         // Set rendering hints for quality
+        setDefaultRenderingHints(g);
+        drawDrawing(g);
+    }
+
+    /**
+     * Sets default configuration of rendering hints
+     * Enforces code brevity while still allowing manual configuration
+     */
+    public void setDefaultRenderingHints(Graphics2D g) {
         g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_NORMALIZE);
@@ -319,9 +327,8 @@ public class DefaultDrawingView
         g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
         g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, (Options.isTextAntialiased()) ? RenderingHints.VALUE_TEXT_ANTIALIAS_ON : RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
-        drawDrawing(g);
     }
-
+    
     protected void drawBackground(Graphics2D g) {
         // Position of the zero coordinate point on the view
         int x = (int) (-translate.x * scaleFactor);
@@ -331,15 +338,8 @@ public class DefaultDrawingView
         int h = getHeight();
 
         // Retrieve the canvasColor color from the drawing
-        Color canvasColor;
-        if (drawing == null) {
-            canvasColor = getBackground();
-        } else {
-            canvasColor = CANVAS_FILL_COLOR.get(drawing);
-            if (canvasColor != null) {
-                canvasColor = new Color((canvasColor.getRGB() & 0xffffff) | ((int) (CANVAS_FILL_OPACITY.get(drawing) * 255) << 24), true);
-            }
-        }
+        Color canvasColor = getCanvasColor();
+        
         if (canvasColor == null || canvasColor.getAlpha() != 255) {
             g.setPaint(getBackgroundPaint(x, y));
             g.fillRect(x, y, w - x, h - y);
@@ -1216,5 +1216,21 @@ public class DefaultDrawingView
 
     public Handle getActiveHandle() {
         return activeHandle;
+    }
+    
+    /**
+     * Returns canvas color from drawing
+     */
+    public Color getCanvasColor() {
+        Color canvasColor;
+        if (drawing == null) {
+            canvasColor = getBackground();
+        } else {
+            canvasColor = CANVAS_FILL_COLOR.get(drawing);
+            if (canvasColor != null) {
+                canvasColor = new Color((canvasColor.getRGB() & 0xffffff) | ((int) (CANVAS_FILL_OPACITY.get(drawing) * 255) << 24), true);
+            }
+        }
+        return canvasColor;
     }
 }
