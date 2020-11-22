@@ -20,9 +20,7 @@ public class IsNotEmptyHandler {
     public IsNotEmptyHandler(){
         
     }
-    public Graphics2D handleNonEmpty1(Graphics2D g, double opacity, Rectangle2D.Double drawingArea,BufferedImage buf){
-        opacity = Math.min(Math.max(0d, opacity), 1d);
-        
+    public Graphics2D handleNonEmpty1(Graphics2D g, double opacity, Rectangle2D.Double drawingArea,BufferedImage buf){        
                     Graphics2D gr = buf.createGraphics();
                     gr.scale(g.getTransform().getScaleX(), g.getTransform().getScaleY());
                     gr.translate((int) -drawingArea.x, (int) -drawingArea.y);

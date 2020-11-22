@@ -82,7 +82,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
 
                 if (!drawingArea.isEmpty()) {
 
-                    drawInEmptyDrawingArea(g);
+                    drawInNotEmptyDrawingArea(g);
                 }
             } else {
                 drawFigure(g);
@@ -90,8 +90,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         }
     }
     
-    private void drawInEmptyDrawingArea(Graphics2D g){
-        System.out.println("Empty");
+    private void drawInNotEmptyDrawingArea(Graphics2D g){
         double opacity = OPACITY.get(this);
         opacity = Math.min(Math.max(0d, opacity), 1d);
         Rectangle2D.Double drawingArea = getDrawingArea();
@@ -410,7 +409,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         
         return actions;
     }
-    
+    //Pulled out a big If/Else Segment from the getActions Method into its own method to improve readability.
     private LinkedList<Action> getActionsClosedCheck(ResourceBundleUtil labels, LinkedList<Action> actions){
         if (CLOSED.get(getChild(getChildCount() - 1))) {
             actions.add(new AbstractAction(labels.getString("attribute.openPath.text")) {
@@ -441,6 +440,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         return actions;
     }
     
+    //Pulled out a big If/Else Segment from the getActions Method into its own method to improve readability.
     private LinkedList<Action> getActionsWindingRuleCheck(ResourceBundleUtil labels, LinkedList<Action> actions){
         if (WINDING_RULE.get(this) != WindingRule.EVEN_ODD) {
             actions.add(new AbstractAction(labels.getString("attribute.windingRule.evenOdd.text")) {
