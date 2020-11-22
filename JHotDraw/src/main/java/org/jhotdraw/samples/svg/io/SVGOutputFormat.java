@@ -766,8 +766,8 @@ public class SVGOutputFormat implements OutputFormat {
         //Computed value:  	 Specified value, except inherit
         writeAttribute(elem, "stroke-width", STROKE_WIDTH.get(f), 1d);
     }
-    private String addGradienttomap(Gradient gradient ) throws IOException {
-            String id;
+    public String addGradienttomap(Gradient gradient ) throws IOException {
+            String id = ;
             if (gradientToIDMap.containsKey(gradient)) {
                 id = gradientToIDMap.get(gradient);
             } else {
