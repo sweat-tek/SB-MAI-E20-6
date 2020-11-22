@@ -54,26 +54,28 @@ public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
                 
                 if (! drawingArea.isEmpty()) {
                     
-                    BufferedImage buf = new BufferedImage(
-                            Math.max(1, (int) ((2 + drawingArea.width) * g.getTransform().getScaleX())),
-                            Math.max(1, (int) ((2 + drawingArea.height) * g.getTransform().getScaleY())),
-                            BufferedImage.TYPE_INT_ARGB);
-                    Graphics2D gr = buf.createGraphics();
-                    gr.scale(g.getTransform().getScaleX(), g.getTransform().getScaleY());
-                    gr.translate((int) -drawingArea.x, (int) -drawingArea.y);
-                    gr.setRenderingHints(g.getRenderingHints());
-                    drawFigure(gr);
-                    gr.dispose();
-                    Composite savedComposite = g.getComposite();
-                    g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) opacity));
-                    g.drawImage(buf, (int) drawingArea.x, (int) drawingArea.y,
-                            2 + (int) drawingArea.width, 2 + (int) drawingArea.height, null);
-                    g.setComposite(savedComposite);
+                    drawInEmptyDrawingArea(g);
                 }
             } else {
                 drawFigure(g);
             }
         }
+    }
+    
+    private void drawInEmptyDrawingArea(Graphics2D g){
+        System.out.println("Empty");
+        double opacity = OPACITY.get(this);
+        opacity = Math.min(Math.max(0d, opacity), 1d);
+        Rectangle2D.Double drawingArea = getDrawingArea();
+        
+        BufferedImage buf = new BufferedImage(
+                            Math.max(1, (int) ((2 + drawingArea.width) * g.getTransform().getScaleX())),
+                            Math.max(1, (int) ((2 + drawingArea.height) * g.getTransform().getScaleY())),
+                            BufferedImage.TYPE_INT_ARGB);
+        IsNotEmptyHandler handler = new IsNotEmptyHandler();
+        Graphics2D gr = handler.handleNonEmpty1(g, opacity, drawingArea, buf);
+        drawFigure(gr);
+        handler.handleNonEmpty2(g, opacity, drawingArea, gr, buf);
     }
     
     /**
