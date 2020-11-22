@@ -14,6 +14,9 @@ public class ToolBarAxis {
     private static final int X = 0;
     private static final int Y = 1;
     
+    public ToolBarAxis(){
+    }
+    
     public int getXAxis(){
         return X;
     }
