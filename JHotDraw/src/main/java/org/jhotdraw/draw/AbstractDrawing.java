@@ -15,6 +15,7 @@ package org.jhotdraw.draw;
 
 import org.jhotdraw.xml.*;
 import java.awt.font.*;
+import java.awt.geom.Point2D;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.undo.*;
@@ -147,6 +148,38 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
     @Override
     public Drawing getDrawing() {
         return this;
+    }
+    
+    @Override
+    public Figure findFigureBehind(Point2D.Double p, Figure figure) {
+        boolean isBehind = false;
+        for (Figure f : getFiguresFrontToBack()) {
+            if (isBehind) {
+                if (f.isVisible() && f.contains(p)) {
+                    return f;
+                }
+            } else {
+                isBehind = figure == f;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Figure findFigureBehind(Point2D.Double p, Collection<? extends Figure> children) {
+        int inFrontOf = children.size();
+        for (Figure f : getFiguresFrontToBack()) {
+            if (inFrontOf == 0) {
+                if (f.isVisible() && f.contains(p)) {
+                    return f;
+                }
+            } else {
+                if (children.contains(f)) {
+                    inFrontOf--;
+                }
+            }
+        }
+        return null;
     }
 
     /*@Override

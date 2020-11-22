@@ -40,6 +40,7 @@ public class BringToFrontAction extends AbstractSelectedAction {
         labels.configureAction(this, ID);
     }
 
+    @Override
     @FeatureEntryPoint(JHotDrawFeatures.ARRANGE)
     public void actionPerformed(java.awt.event.ActionEvent e) {
         final DrawingView view = getView();
@@ -48,29 +49,30 @@ public class BringToFrontAction extends AbstractSelectedAction {
         fireUndoableEditHappened(new AbstractUndoableEdit() {
             @Override
             public String getPresentationName() {
-       return labels.getTextProperty(ID);
+                return labels.getTextProperty(ID);
             }
+            
             @Override
             public void redo() throws CannotRedoException {
                 super.redo();
                 BringToFrontAction.bringToFront(view, figures);
             }
+            
             @Override
             public void undo() throws CannotUndoException {
                 super.undo();
                 SendToBackAction.sendToBack(view, figures);
             }
         }
-        
         );
     }
     public static void bringToFront(DrawingView view, Collection<Figure> figures) {
         Drawing drawing = view.getDrawing();
+        assert view != null : "View is null";
         Iterator i = drawing.sort(figures).iterator();
         while (i.hasNext()) {
             Figure figure = (Figure) i.next();
             drawing.bringToFront(figure);
         }
     }
-    
 }

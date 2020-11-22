@@ -39,6 +39,7 @@ public class SendToBackAction extends AbstractSelectedAction {
         labels.configureAction(this, ID);
     }
 
+    @Override
     @FeatureEntryPoint(JHotDrawFeatures.ARRANGE)
     public void actionPerformed(java.awt.event.ActionEvent e) {
         final DrawingView view = getView();
@@ -62,9 +63,10 @@ public class SendToBackAction extends AbstractSelectedAction {
         }
         );
     }
-    public static void sendToBack(DrawingView view, Collection figures) {
-        Iterator i = figures.iterator();
+    public static void sendToBack(DrawingView view, Collection<Figure> figures) {
         Drawing drawing = view.getDrawing();
+        assert view != null : "View is null";
+        Iterator i = drawing.sort(figures).iterator();
         while (i.hasNext()) {
             Figure figure = (Figure) i.next();
             drawing.sendToBack(figure);
