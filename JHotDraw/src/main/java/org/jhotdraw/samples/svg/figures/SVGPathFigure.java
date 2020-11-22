@@ -405,6 +405,13 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                 }
             });
         }
+        actions = getActionsClosedCheck(labels, actions);
+        actions = getActionsWindingRuleCheck(labels, actions);
+        
+        return actions;
+    }
+    
+    private LinkedList<Action> getActionsClosedCheck(ResourceBundleUtil labels, LinkedList<Action> actions){
         if (CLOSED.get(getChild(getChildCount() - 1))) {
             actions.add(new AbstractAction(labels.getString("attribute.openPath.text")) {
 
@@ -430,11 +437,11 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                 }
             });
         }
-        getActionsWindingRule(labels, actions);
         
         return actions;
     }
-    private LinkedList<Action> getActionsWindingRule(ResourceBundleUtil labels, LinkedList<Action> actions){
+    
+    private LinkedList<Action> getActionsWindingRuleCheck(ResourceBundleUtil labels, LinkedList<Action> actions){
         if (WINDING_RULE.get(this) != WindingRule.EVEN_ODD) {
             actions.add(new AbstractAction(labels.getString("attribute.windingRule.evenOdd.text")) {
                 @FeatureEntryPoint(JHotDrawFeatures.LINE_TOOL)
