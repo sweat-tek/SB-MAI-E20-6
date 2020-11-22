@@ -110,8 +110,10 @@ public class FontToolBar extends AbstractToolBar {
             };
         }
     }
-
-    private void initialize() 
+    
+    @Override
+    @FeatureEntryPoint(JHotDrawFeatures.FONT_PALETTE)
+    protected JComponent createDisclosedComponent(int state) 
     {
         panel.setBorder(new EmptyBorder(5, 5, 5, 8));
 
@@ -122,13 +124,7 @@ public class FontToolBar extends AbstractToolBar {
         
         GridBagLayout layout = new GridBagLayout();
         panel.setLayout(layout);
-    }
-    
-    @Override
-    @FeatureEntryPoint(JHotDrawFeatures.FONT_PALETTE)
-    protected JComponent createDisclosedComponent(int state) 
-    {
-        initialize();
+        
         fontSizeSliderUI();
         fontStyleButtonsUI();
         

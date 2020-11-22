@@ -40,5 +40,10 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.tngtech.jgiven</groupId>
+            <artifactId>jgiven-junit</artifactId>
+            <version>1.0.0-RC6</version>
+        </dependency>
     </dependencies>   
  </project>
