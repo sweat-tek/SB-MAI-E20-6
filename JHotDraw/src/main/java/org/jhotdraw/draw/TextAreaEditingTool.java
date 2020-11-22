@@ -47,6 +47,7 @@ public class TextAreaEditingTool extends AbstractTool implements ActionListener 
 
     private FloatingTextArea textArea;
     private TextHolderFigure typingTarget;
+    private Object EditHelper;
 
     /** Creates a new instance. */
     public TextAreaEditingTool(TextHolderFigure typingTarget) {
@@ -109,7 +110,19 @@ public class TextAreaEditingTool extends AbstractTool implements ActionListener 
     }
 
     protected void endEdit() {
-        if (typingTarget != null) {
+        
+          UndoableEdit edit = EditHelper(textArea, typingTarget);
+            
+            if(edit != null) {
+            getDrawing().fireUndoableEditHappened(edit);
+            
+            typingTarget.changed();
+            typingTarget = null;
+
+            textArea.endOverlay();
+            }
+    }
+      /*  if (typingTarget != null) {
             typingTarget.willChange();
 
             final TextHolderFigure editedFigure = typingTarget;
@@ -155,7 +168,7 @@ public class TextAreaEditingTool extends AbstractTool implements ActionListener 
         }
     //	        view().checkDamage();
     }
-
+*/
     public void actionPerformed(ActionEvent event) {
         endEdit();
             fireToolDone();
@@ -163,5 +176,9 @@ public class TextAreaEditingTool extends AbstractTool implements ActionListener 
 
     public void mouseDragged(MouseEvent e) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    private UndoableEdit EditHelper(FloatingTextArea textArea, TextHolderFigure typingTarget) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

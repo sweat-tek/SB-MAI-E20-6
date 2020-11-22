@@ -76,6 +76,7 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
      * draw a rubberband.
      */
     private Color rubberbandColor = null;
+    private Object EditHelper;
 
     /** Creates a new instance. */
     public TextAreaCreationTool(TextHolderFigure prototype) {
@@ -130,6 +131,8 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
 
         // If the point is not contained in the current selection,
         // search for a figure in the drawing.
+        
+   
         if (pressedFigure == null) {
             pressedFigure = getDrawing().findFigureInside(p);
         }
@@ -213,7 +216,22 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
 
     @FeatureEntryPoint(JHotDrawFeatures.TEXT_AREA_TOOL)
     protected void endEdit() {
-        if (typingTarget != null) {
+        UndoableEdit edit = EditHelper(textArea, typingTarget);
+        if (createdFigure != null & textArea.getText().length() <= 0) {
+                    getDrawing().remove((Figure) getAddedFigure());
+            }
+            
+            if(edit != null) {
+            getDrawing().fireUndoableEditHappened(edit);
+            
+            typingTarget.changed();
+            typingTarget = null;
+
+            textArea.endOverlay();
+            }
+        }
+// 
+       /* if (typingTarget != null) {
             typingTarget.willChange();
 
             final TextHolderFigure editedFigure = typingTarget;
@@ -264,11 +282,15 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
         }
     //	        view().checkDamage();
     }
-
+*/
     public void actionPerformed(ActionEvent event) {
         endEdit();
         if (isToolDoneAfterCreation()) {
             fireToolDone();
         }
+    }
+
+    private UndoableEdit EditHelper(FloatingTextArea textArea, TextHolderFigure typingTarget) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
