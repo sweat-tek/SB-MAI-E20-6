@@ -75,5 +75,4 @@ public class BringToFrontAction extends AbstractSelectedAction {
             drawing.bringToFront(figure);
         }
     }
-    
 }

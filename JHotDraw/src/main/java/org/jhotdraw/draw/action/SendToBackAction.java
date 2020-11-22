@@ -63,7 +63,7 @@ public class SendToBackAction extends AbstractSelectedAction {
         }
         );
     }
-    public static void sendToBack(DrawingView view, Collection figures) {
+    public static void sendToBack(DrawingView view, Collection<Figure> figures) {
         Drawing drawing = view.getDrawing();
         assert view != null : "View is null";
         Iterator i = drawing.sort(figures).iterator();
