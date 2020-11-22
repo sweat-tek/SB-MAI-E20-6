@@ -628,40 +628,9 @@ public class SVGOutputFormat implements OutputFormat {
         // Media:  	 visual
         // Animatable:  	 yes
         // Computed value:  	 "none", system paint, specified <color> value or absolute IRI
-        Gradient gradient = FILL_GRADIENT.get(f);
+   Gradient gradient = FILL_GRADIENT.get(f);
         if (gradient != null) {
-            String id;
-            if (gradientToIDMap.containsKey(gradient)) {
-                id = gradientToIDMap.get(gradient);
-            } else {
-                IXMLElement gradientElem;
-                if (gradient instanceof LinearGradient) {
-                    LinearGradient lg = (LinearGradient) gradient;
-                    gradientElem = createLinearGradient(document,
-                            lg.getX1(), lg.getY1(),
-                            lg.getX2(), lg.getY2(),
-                            lg.getStopOffsets(),
-                            lg.getStopColors(),
-                            lg.getStopOpacities(),
-                            lg.isRelativeToFigureBounds(),
-                            lg.getTransform());
-                } else /*if (gradient instanceof RadialGradient)*/ {
-                    RadialGradient rg = (RadialGradient) gradient;
-                    gradientElem = createRadialGradient(document,
-                            rg.getCX(), rg.getCY(),
-                            rg.getFX(), rg.getFY(),
-                            rg.getR(),
-                            rg.getStopOffsets(),
-                            rg.getStopColors(),
-                            rg.getStopOpacities(),
-                            rg.isRelativeToFigureBounds(),
-                            rg.getTransform());
-                }
-                id = getId(gradientElem);
-                gradientElem.setAttribute("id", "xml", id);
-                defs.addChild(gradientElem);
-                gradientToIDMap.put(gradient, id);
-            }
+            String id = addGradienttomap(gradient);            
             writeAttribute(elem, "fill", "url(#" + id + ")", "#000");
         } else {
             writeAttribute(elem, "fill", toColor(FILL_COLOR.get(f)), "#000");
@@ -704,38 +673,7 @@ public class SVGOutputFormat implements OutputFormat {
         // or absolute IRI
         gradient = STROKE_GRADIENT.get(f);
         if (gradient != null) {
-            String id;
-            if (gradientToIDMap.containsKey(gradient)) {
-                id = gradientToIDMap.get(gradient);
-            } else {
-                IXMLElement gradientElem;
-                if (gradient instanceof LinearGradient) {
-                    LinearGradient lg = (LinearGradient) gradient;
-                    gradientElem = createLinearGradient(document,
-                            lg.getX1(), lg.getY1(),
-                            lg.getX2(), lg.getY2(),
-                            lg.getStopOffsets(),
-                            lg.getStopColors(),
-                            lg.getStopOpacities(),
-                            lg.isRelativeToFigureBounds(),
-                            lg.getTransform());
-                } else /*if (gradient instanceof RadialGradient)*/ {
-                    RadialGradient rg = (RadialGradient) gradient;
-                    gradientElem = createRadialGradient(document,
-                            rg.getCX(), rg.getCY(),
-                            rg.getFX(), rg.getFY(),
-                            rg.getR(),
-                            rg.getStopOffsets(),
-                            rg.getStopColors(),
-                            rg.getStopOpacities(),
-                            rg.isRelativeToFigureBounds(),
-                            rg.getTransform());
-                }
-                id = getId(gradientElem);
-                gradientElem.setAttribute("id", "xml", id);
-                defs.addChild(gradientElem);
-                gradientToIDMap.put(gradient, id);
-            }
+            String id = addGradienttomap(gradient);
             writeAttribute(elem, "stroke", "url(#" + id + ")", "none");
         } else {
             writeAttribute(elem, "stroke", toColor(STROKE_COLOR.get(f)), "none");
@@ -828,6 +766,45 @@ public class SVGOutputFormat implements OutputFormat {
         //Computed value:  	 Specified value, except inherit
         writeAttribute(elem, "stroke-width", STROKE_WIDTH.get(f), 1d);
     }
+    private String addGradienttomap(Gradient gradient ) throws IOException {
+            String id;
+            if (gradientToIDMap.containsKey(gradient)) {
+                id = gradientToIDMap.get(gradient);
+            } else {
+                IXMLElement gradientElem;
+                if (gradient instanceof LinearGradient) {
+                    LinearGradient lg = (LinearGradient) gradient;
+                    gradientElem = createLinearGradient(document,
+                            lg.getX1(), lg.getY1(),
+                            lg.getX2(), lg.getY2(),
+                            lg.getStopOffsets(),
+                            lg.getStopColors(),
+                            lg.getStopOpacities(),
+                            lg.isRelativeToFigureBounds(),
+                            lg.getTransform());
+                } else /*if (gradient instanceof RadialGradient)*/ {
+                    RadialGradient rg = (RadialGradient) gradient;
+                    gradientElem = createRadialGradient(document,
+                            rg.getCX(), rg.getCY(),
+                            rg.getFX(), rg.getFY(),
+                            rg.getR(),
+                            rg.getStopOffsets(),
+                            rg.getStopColors(),
+                            rg.getStopOpacities(),
+                            rg.isRelativeToFigureBounds(),
+                            rg.getTransform());
+                }
+                id = getId(gradientElem);
+                gradientElem.setAttribute("id", "xml", id);
+                defs.addChild(gradientElem);
+                gradientToIDMap.put(gradient, id);
+            }
+            return id;
+    }
+    
+    
+    
+    
     /* Writes the opacity attribute.
      */
 
