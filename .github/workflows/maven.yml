@@ -5,9 +5,9 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ master ]
+    branches: [ font-palette ]
   pull_request:
-    branches: [ master ]
+    branches: [ font-palette ]
 
 jobs:
   build:
@@ -22,3 +22,4 @@ jobs:
         java-version: 1.8
     - name: Build with Maven
       run: mvn -B package --file ./JHotDraw/pom.xml
+
