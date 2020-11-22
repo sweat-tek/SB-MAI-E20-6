@@ -7,7 +7,7 @@ package org.jhotdraw.samples.svg;
 
 /**
  *
- * @author ao
+ * @author ho
  */
 public class Foo {
     public void bar(){
